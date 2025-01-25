@@ -1,3 +1,3 @@
 # NWitter
 
-Twitter clone project
+Twitter clone project implementation
