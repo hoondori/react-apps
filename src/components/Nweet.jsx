@@ -1,5 +1,8 @@
 import { dbService } from "../fbase";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+
 
 /*
     한 트윗에 대해서 화면에 표시한다. 
@@ -37,21 +40,27 @@ const Nweet = ({nweetObj, isOwner}) => {
     // 투윗 수정 input text 를 submit해서 firebase에 반영
     const onSubmit = async (event) => {
         event.preventDefault();
-        console.log(nweetObj.id, newNweet);
         await dbService.doc( `nweets/${nweetObj.id}`).update({text: newNweet});
         setEditing(false);
     }
 
     // 수정 상태면 수정 관련 랜더링이 되고 아니라면 트윗과 수정/삭제 버튼이 랜더링
     return (  
-        <div>
+        <div className="nweet">
             {editing ?(
                 <>
-                    <form onSubmit={onSubmit}>
-                        <input onChange={onChange} value={newNweet} required/>
-                        <input type="submit" value="Update Nweet" />
+                    <form onSubmit={onSubmit} className="container nweetEdit">
+                        <input 
+                            onChange={onChange} 
+                            value={newNweet} 
+                            required
+                            placeholder="Edit your nweet"
+                            autoFocusclassName="formInput"
+                            />
+                            
+                        <input type="submit" value="Update Nweet" className="formBtn" />
                     </form>
-                    <button onClick={toggleEditing}>Cancel</button>
+                    <button onClick={toggleEditing} className="formBtn cancelBtn">Cancel</button>
                 </>
             ) : (
                 <>
@@ -60,10 +69,14 @@ const Nweet = ({nweetObj, isOwner}) => {
                     <img src={nweetObj.attachmentUrl} widht="50px" height="50px" />
                 )}
                 {isOwner && (
-                    <>
-                        <button onClick={onDeleteClick}>Delete Nweet</button>
-                        <button onClick={toggleEditing}>Edit Nweet</button>
-                    </>
+                    <div className="nweet__actions">
+                        <span onClick={onDeleteClick}>
+                            <FontAwesomeIcon icon={faTrash} />
+                        </span>
+                        <span onClick={toggleEditing}>
+                            <FontAwesomeIcon icon={faPencilAlt} />
+                        </span>
+                    </div>
                 )}
                 </>
             )}

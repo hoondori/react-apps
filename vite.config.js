@@ -10,5 +10,6 @@ export default defineConfig({
       { find: "@components", replacement: "/src/components"},
       { find: "@routes", replacement: "/src/routes"}
     ]
-  }
+  },
+  base: "/nweeter/"
 })

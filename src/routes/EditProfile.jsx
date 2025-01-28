@@ -51,18 +51,29 @@ const EditProfile = ({ userObj, refreshUser }) => {
     }
 
     return (
-        <>
-            <form onSubmit={onSubmit}>
+        <div className="container">
+            <form onSubmit={onSubmit} className="profileForm">
                 <input 
                     onChange={onChange}
                     value={newDisplayName}
                     type="text" 
                     placeholder="Display Name" 
+                    autoFocus
+                    className="formInput"
                 />
-                <input type="submit" placeholder="Update Profile" />
+                <input 
+                    type="submit" 
+                    placeholder="Update Profile" 
+                    className="formBtn"
+                    style={{marginTop: 10,}}
+                />
             </form>
-            <button onClick={onLogoutClick}>Log Out</button>
-            <div>
+            <span 
+                className="formBtn cancelBtn logOut" 
+                onClick={onLogoutClick}>
+                Log Out
+            </span>
+            <div style={{marginTop:30,}}>
                 {nweets.map((nweet) => (
                     <Nweet 
                         key={nweet.id} 
@@ -70,7 +81,7 @@ const EditProfile = ({ userObj, refreshUser }) => {
                         isOwner={true} />
                 ))}
             </div>            
-        </>
+        </div>
     );
 };
 
