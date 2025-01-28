@@ -2,10 +2,13 @@ import { authService, dbService } from "@/fbase.jsx"
 import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react";
 import Nweet from "@components/Nweet";
+import { updateProfile } from "firebase/auth"
 
-const EditProfile = ({ userObj }) => {
+
+const EditProfile = ({ userObj, refreshUser }) => {
     const navigate = useNavigate();
     const [nweets, setNweets] = useState([]); // 트윗 목록
+    const [newDisplayName, setNewDisplayName] = useState(""); // 출력용 이름
 
     const onLogoutClick = () => {
         authService.signOut();
@@ -24,16 +27,40 @@ const EditProfile = ({ userObj }) => {
             id: document.id, ...document.data(),
         }));
         setNweets(newArray);
-
-        console.log(nweets.docs.map((doc)=> doc.data()));
     };
 
     useEffect(() => {
         getMyNweets();
     }, []);
 
+    // 출력용 이름 설정
+    const onChange = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setNewDisplayName(value);
+    }
+
+    // 출력용 이름 제출
+    const onSubmit = async (event) => {
+        event.preventDefault();
+        if (userObj.displayName !== newDisplayName) { // 기존과 다를때만
+            await updateProfile(userObj, {displayName: newDisplayName});
+            refreshUser();
+        }
+    }
+
     return (
         <>
+            <form onSubmit={onSubmit}>
+                <input 
+                    onChange={onChange}
+                    value={newDisplayName}
+                    type="text" 
+                    placeholder="Display Name" 
+                />
+                <input type="submit" placeholder="Update Profile" />
+            </form>
             <button onClick={onLogoutClick}>Log Out</button>
             <div>
                 {nweets.map((nweet) => (

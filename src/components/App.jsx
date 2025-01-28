@@ -20,9 +20,24 @@ function App() {
     })
   }, []);
 
+  // 임의의 지점에서 firebase의 userObj이 변경된 경우 
+  // 이 함수를 호출해서 local 내의 userObj 객체도 변화시킨다. 
+  // 이 함수를 널리 퍼트려서 호출당하게 하자. 
+  const refreshUser = () => {
+    console.log("refreshUser called", authService.currentUser)
+    setUserObj(authService.currentUser);
+  }
+
   return (
     <>
-      {init ? <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} /> : "Initializing..."}
+      {init ? 
+        <AppRouter 
+          refreshUser={refreshUser} 
+          isLoggedIn={isLoggedIn} 
+          userObj={userObj} 
+        /> 
+        : "Initializing..."
+      }
     </>
   )
 }
