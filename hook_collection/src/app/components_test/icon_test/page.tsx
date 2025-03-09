@@ -1,5 +1,5 @@
 import type {FC, CSSProperties} from 'react'
-import {Icon} from '../../../components/Icon'
+import {Icon} from '@/components/Icon'
 import '@fontsource/material-icons'
 
 export default function IconTest() {

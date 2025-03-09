@@ -1,5 +1,5 @@
 
-import * as chance from '../../../data/chance'
+import * as chance from '@/data/chance'
 
 
 export default function Tailwndss() {
