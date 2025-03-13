@@ -1,6 +1,4 @@
-import type {FC, DetailedHTMLProps, HTMLAttributes, PropsWithChildren} from 'react'
-import type { WidthHeight } from './WidthHeight'
-
+import type {FC, DetailedHTMLProps, HTMLAttributes} from 'react'
 
 export type ReactSpanPros = DetailedHTMLProps<
   HTMLAttributes<HTMLSpanElement>,

@@ -1,6 +1,7 @@
 import type {FC, DetailedHTMLProps, HTMLAttributes, PropsWithChildren} from 'react'
 import type { WidthHeight } from './WidthHeight'
 import type { LeftRightTopBottom } from './LeftRightTopBottom'
+import type { MinMaxWidthHeight } from './MinMaxWidthHeight'
 
 /*
 React.DetailedHTMLProps<React.HTMLProps<T>, T>:
@@ -18,15 +19,8 @@ export type ReactDivProps = DetailedHTMLProps<
 export type DivProps = ReactDivProps & 
   PropsWithChildren<WidthHeight> & 
   LeftRightTopBottom &
+  MinMaxWidthHeight &
   { src?: string,}
-
-// prettier-ignore
-// export const Div: FC<DivProps> = ({
-//   width, height, style: _style, src, ...props
-// }) => {
-//   const style = {..._style, width, height, backgroundImage: src && `url(${src})`}
-//   return <div {...props} style={style} />
-// }
 
 // prettier-ignore
 export const Div: FC<DivProps> = ({
@@ -35,6 +29,7 @@ export const Div: FC<DivProps> = ({
   src, 
   className: _className, 
   left, right, top, bottom,
+  minWidth, maxWidth, minHeight, maxHeight,
   ...props
 }) => {
   const style = {
@@ -42,6 +37,7 @@ export const Div: FC<DivProps> = ({
     width, height, 
     backgroundImage: src && `url(${src})`,
     left, right, top, bottom,
+    minWidth, maxWidth, minHeight, maxHeight
   }
   const className = ['box-border', src && 'bg-gray-300', _className].join(' ')
   return <div {...props} className={className} style={style} />
