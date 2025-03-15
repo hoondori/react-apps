@@ -1,6 +1,6 @@
 import {Title, Subtitle, Summary, Paragraph} from '@/components/Texts'
 import * as D from "@/data"
-import { Avatar } from '@/components/ avatar'
+import { Avatar } from '@/components/avatar'
 import { useMemo } from 'react'
 
 export default function CreateOrUseTest() {

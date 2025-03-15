@@ -28,3 +28,4 @@ export default function ClockFunction() {
       </div>
     </section>
   )
+}

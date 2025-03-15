@@ -1,7 +1,7 @@
 import {Title, Subtitle, Summary, Paragraph} from '@/components/Texts'
 import * as D from "@/data"
 import { useOrCreate } from '@/hooks/UseOrCreate'
-import { Avatar } from '@/components/ avatar'
+import { Avatar } from '@/components/avatar'
 
 export default function CreateOrUseTest() {
   const headTexts = useOrCreate<string[]>('headTexts', () =>[

@@ -1,5 +1,5 @@
 import {Title, Subtitle, Summary, Paragraph} from '@/components/Texts'
-import { Avatar } from '@/components/ avatar'
+import { Avatar } from '@/components/avatar'
 import * as D from "@/data"
 import { useOrCreate } from '@/hooks/UseOrCreate'
 import { Div } from '@/components/Div'
