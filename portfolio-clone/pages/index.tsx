@@ -1,3 +1,4 @@
+/**  @jsxImportSource @emotion/react */
 'use client'
 import type { NextPage } from 'next'
 import Head from 'next/head'
@@ -6,6 +7,14 @@ import styles from '../styles/Home.module.css'
 import { useCallback, useRef } from "react"
 import { useMemo } from 'react'
 import AboutMeSection from "@components/templates/AboutMeSection"
+import CareerSection from '@components/templates/CarreerSection'
+import MySkillSection from '@components/templates/MySkillSection'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { Text } from '@components/atoms'
+import IntroSection, {
+  INTRO_SECTION_PAGE_HEIGHT,
+} from '@components/templates/IntroSection'
+
 
 const HEADER_HEIGHT = 72
 
@@ -17,6 +26,9 @@ const Home: NextPage = () => {
   // references to major sections
   const IntroSectionRef = useRef<HTMLDivElement>(null);
   const AboutMeSectionRef = useRef<HTMLDivElement>(null);
+  const CareerSectionRef = useRef<HTMLDivElement>(null);
+  const MySkillSectionRef = useRef<HTMLDivElement>(null);
+
 
   const scrollToSection = useCallback(
     (index: number) => {
@@ -35,6 +47,16 @@ const Home: NextPage = () => {
               top: AboutMeSectionRef.current?.offsetTop! - (!isMobile?HEADER_HEIGHT:0),
               behavior: 'smooth'
             })
+          case 2: // to skill section
+            return window.scrollTo({
+              top: MySkillSectionRef.current?.offsetTop! - (!isMobile?HEADER_HEIGHT:0),
+              behavior: 'smooth'
+            })            
+          case 4: // to the about me section
+            return window.scrollTo({
+              top: CareerSectionRef.current?.offsetTop! - (!isMobile?HEADER_HEIGHT:0),
+              behavior: 'smooth'
+            })            
         }
       } else {
         console.log("no window")
@@ -43,8 +65,11 @@ const Home: NextPage = () => {
     []
   )
 
+  // navigation bar
   const headers = [
     { title: 'About Me', scrollIndex: 1},
+    { title: 'Skill', scrollIndex: 2 },
+    { title: 'Career', scrollIndex: 4 },    
   ]
 
   const sectionMethods = useMemo(
@@ -52,16 +77,119 @@ const Home: NextPage = () => {
     [scrollToSection]
   )
 
-  return (
-    <>
-      <AboutMeSection 
-        ref={AboutMeSectionRef} sectionMethods={sectionMethods}
-      >
+  // change the background color of a header based on the scroll position (along the Y-axis),
+  const { scrollY } = useScroll()
+  const headerBackgroundColor = useTransform(
+    scrollY, 
+    (value) => {
+      return value > INTRO_SECTION_PAGE_HEIGHT ? 'white' : 'black'
+    }
+  )
 
-      </AboutMeSection>
-      <div>ABCD</div>
-    </>
-    
+  const headerTextBackgroundColor = useTransform(
+    scrollY, 
+    (value) => {
+      return value > INTRO_SECTION_PAGE_HEIGHT ? 'black' : 'white'
+    }
+  )
+
+  return (
+    <main
+      css={{
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <div
+        css={{
+          display: 'none',
+          '@media (min-width: 800px)': {
+            'display': 'block'
+          }
+        }}
+      >
+        
+        <motion.header
+          style={{ backgroundColor: headerBackgroundColor}}
+          css={{
+            zIndex: 101,
+            position: 'fixed',
+            top: 0,
+            height: HEADER_HEIGHT,
+            opacity: 0.9,
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            paddingLeft: '2rem',
+            paddingRight: '2rem',
+            justifyContent: 'center',
+            boxShadow: '0 1px 0.3rem hsl(0deg 0% 80% / 80%)',
+          }}
+        >
+          {/**Logo + Navigation*/}
+          <div
+            css={{
+              maxWidth: '71.25rem',
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',              
+            }}
+          >
+            {/**Logo*/}
+            <Text bold 
+              css={{
+                fontSize: '2rem',
+                cursor: 'pointer',
+                transition: '0.2s ease',
+                ':hover': {
+                  color: '#007aff !important',
+                },
+              }}
+              onClick={() => { scrollToSection(0)}}
+              style={{
+                color: headerTextBackgroundColor,
+              }}
+            >
+              {"Hoondori Portfolio"}
+            </Text>
+            
+            {/**Navigation*/}
+            <div
+              css={{
+                display: 'flex',
+                gap: '2rem',
+                alignItems: 'center',
+              }}
+            >
+              {headers.map((header) => (
+                <Text
+                  key={header.title}
+                  style={{
+                    color: headerTextBackgroundColor,
+                  }}                                      
+                  css={{
+                    fontSize: '1.5rem',
+                    cursor: 'pointer',
+                    transition: '0.2s ease',
+                    ':hover': {
+                      color: '#007aff !important',
+                    },
+                  }}
+                  onClick={() => {scrollToSection(header.scrollIndex)}}
+                >
+                  {header.title}
+                </Text>
+             
+              ))}
+            </div> {/**end of navigation*/}
+          </div> {/**end of Logo + Navigation*/}
+        </motion.header>
+      </div>
+      <IntroSection ref={IntroSectionRef} sectionMethods={sectionMethods} />
+      <AboutMeSection ref={AboutMeSectionRef} sectionMethods={sectionMethods} />
+      <MySkillSection ref={MySkillSectionRef} sectionMethods={sectionMethods} />      
+      <CareerSection ref={CareerSectionRef} sectionMethods={sectionMethods} />
+    </main>    
   )
 }
 

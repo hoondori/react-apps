@@ -32,19 +32,23 @@ const AboutMeSection: ForwardRefRenderFunction<
     <Section
       ref={ref}
       css={{
-
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        backgroundColor: theme.colors.white,
+        padding: '6rem 2rem'
       }}
     >
       <Center
         css={{
-
+          flexDirection: 'column',
+          flex: 1,
         }}
       >
         <SectionTitle
           title='ABOUT ME' 
           onClickScrollClip={()=>sectionMethods.scrollToSection(1)}  
         />
-        // show personal information with motion
+
         <motion.div
           initial={{ translateY: 0, opacity: 0 }}
           whileInView={{
@@ -74,17 +78,30 @@ const AboutMeSection: ForwardRefRenderFunction<
           {ABOUT_ME_FIELD.map( ({fields, title})=> (
             <div 
               key={title}
-              css={{}}
+              css={{
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'column',
+                gap: '1rem',
+                flex: 1,
+              }}
             >
               <Text
-                css={{}}
+                css={{
+                  fontSize: '2rem',
+                  borderBottomColor: '#cccccc',
+                  borderBottomWidth: 2,
+                  borderBottomStyle: 'solid'
+                }}
               >
                 {title}
               </Text>
               {fields.map((field)=>(
                 <Text
                   key={field}
-                  css={{}}
+                  css={{
+                    fontSize: '1.25rem',
+                  }}
                 >
                   {field}
                 </Text>
