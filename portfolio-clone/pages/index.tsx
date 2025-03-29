@@ -9,7 +9,9 @@ import { useMemo } from 'react'
 import AboutMeSection from "@components/templates/AboutMeSection"
 import CareerSection from '@components/templates/CarreerSection'
 import MySkillSection from '@components/templates/MySkillSection'
+import ProjectSection from '@components/templates/ProjectSection'
 import { motion, useScroll, useTransform } from 'framer-motion'
+
 import { Text } from '@components/atoms'
 import IntroSection, {
   INTRO_SECTION_PAGE_HEIGHT,
@@ -28,7 +30,7 @@ const Home: NextPage = () => {
   const AboutMeSectionRef = useRef<HTMLDivElement>(null);
   const CareerSectionRef = useRef<HTMLDivElement>(null);
   const MySkillSectionRef = useRef<HTMLDivElement>(null);
-
+  const ProjectSectionRef = useRef<HTMLDivElement>(null);
 
   const scrollToSection = useCallback(
     (index: number) => {
@@ -51,7 +53,12 @@ const Home: NextPage = () => {
             return window.scrollTo({
               top: MySkillSectionRef.current?.offsetTop! - (!isMobile?HEADER_HEIGHT:0),
               behavior: 'smooth'
-            })            
+            })        
+          case 3: // to project section
+            return window.scrollTo({
+              top: ProjectSectionRef.current?.offsetTop! - (!isMobile?HEADER_HEIGHT:0),
+              behavior: 'smooth'
+            })
           case 4: // to the about me section
             return window.scrollTo({
               top: CareerSectionRef.current?.offsetTop! - (!isMobile?HEADER_HEIGHT:0),
@@ -69,6 +76,7 @@ const Home: NextPage = () => {
   const headers = [
     { title: 'About Me', scrollIndex: 1},
     { title: 'Skill', scrollIndex: 2 },
+    { title: 'Project', scrollIndex: 3 },
     { title: 'Career', scrollIndex: 4 },    
   ]
 
@@ -188,6 +196,7 @@ const Home: NextPage = () => {
       <IntroSection ref={IntroSectionRef} sectionMethods={sectionMethods} />
       <AboutMeSection ref={AboutMeSectionRef} sectionMethods={sectionMethods} />
       <MySkillSection ref={MySkillSectionRef} sectionMethods={sectionMethods} />      
+      <ProjectSection ref={ProjectSectionRef} sectionMethods={sectionMethods} />
       <CareerSection ref={CareerSectionRef} sectionMethods={sectionMethods} />
     </main>    
   )
